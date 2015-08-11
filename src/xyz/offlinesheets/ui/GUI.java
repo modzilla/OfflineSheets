@@ -1,23 +1,17 @@
 package xyz.offlinesheets.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JTextField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.JLabel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.Color;
 
 public class GUI extends JFrame {
 
@@ -25,10 +19,8 @@ public class GUI extends JFrame {
 	private JTextField textField;
 	private int resultheight = 73, margin = 15, top = 85;
 	private int currResultsShown = 0;
-	/**
-	 * @wbp.nonvisual location=46,99
-	 */
-	private final ResultPanel resultPanel = new ResultPanel("LM741", "General Purpose OPAMP", (ClickHandler) null);
+
+	private JPanel panel;
 	/**
 	 * Launch the application.
 	 */
@@ -49,10 +41,12 @@ public class GUI extends JFrame {
 	 * Create the frame.
 	 */
 	public GUI() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("OfflineSheets");
-		setBounds(100, 100, 475, 277);
+		setBounds(100, 100, 475, 85);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
@@ -64,21 +58,60 @@ public class GUI extends JFrame {
 			}
 		});
 		textField.setColumns(10);
+		
+		panel = new JPanel();
+		
+		ResultPanel resultPanel = new ResultPanel("LM741", "General Purpose OPAMP", (ResultClickedEvent) null);
+		resultPanel.setVisible(false);
+		ResultPanel resultPanel_1 = new ResultPanel((String) null, (String) null, (ResultClickedEvent) null);
+		resultPanel_1.setVisible(false);
+		ResultPanel resultPanel_2 = new ResultPanel((String) null, (String) null, (ResultClickedEvent) null);
+		resultPanel_2.setVisible(false);
+		ResultPanel resultPanel_3 = new ResultPanel((String) null, (String) null, (ResultClickedEvent) null);
+		resultPanel_3.setVisible(false);
+		ResultPanel resultPanel_4 = new ResultPanel((String) null, (String) null, (ResultClickedEvent) null);
+		resultPanel_4.setVisible(false);
+
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(textField, GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
-					.addContainerGap())
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(resultPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(textField, GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE))
+							.addGap(10))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(resultPanel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(10, Short.MAX_VALUE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(resultPanel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(10, Short.MAX_VALUE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(resultPanel_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(10, Short.MAX_VALUE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(resultPanel_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(10, Short.MAX_VALUE))))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(73, Short.MAX_VALUE))
-					.addComponent(resultPanel,GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(40)
+					.addComponent(resultPanel, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(resultPanel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(resultPanel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(resultPanel_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(resultPanel_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(45, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
@@ -91,7 +124,7 @@ public class GUI extends JFrame {
 		currResultsShown += num;
 		int totalHeight = num * resultheight + (num * margin) + HEIGHT + this.getHeight();
 		int w = this.getWidth();
-		if(num < 5)
+		if(currResultsShown < 5)
 			this.setSize(w, totalHeight);
 		else
 			System.out.println("Max results");

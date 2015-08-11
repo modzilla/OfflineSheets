@@ -1,5 +1,5 @@
 package xyz.offlinesheets.ui;
 
-public interface ClickHandler {
+public interface ResultClickedEvent {
 	public void clicked();
 }

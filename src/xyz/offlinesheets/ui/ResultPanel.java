@@ -2,24 +2,24 @@ package xyz.offlinesheets.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Panel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.Border;
 
-public class ResultPanel extends Panel {
+public class ResultPanel extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 185318332808351605L;
 	private String name, desc;
-	private ClickHandler ch;
-	public ResultPanel(String partname, String description, ClickHandler onclick){
+	private ResultClickedEvent ch;
+	public ResultPanel(String partname, String description, ResultClickedEvent onclick){
 		super();
 		this.name = partname;
 		this.desc = description;
@@ -44,6 +44,7 @@ public class ResultPanel extends Panel {
 		JLabel lblResultDesc = new JLabel(desc);
 		
 		GroupLayout gl_resultBox = new GroupLayout(this);
+		
 		gl_resultBox.setHorizontalGroup(
 			gl_resultBox.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_resultBox.createSequentialGroup()
@@ -65,8 +66,11 @@ public class ResultPanel extends Panel {
 		lblResultPart.setVisible(true);
 		lblResultDesc.setVisible(true);
 		this.setLayout(gl_resultBox);
-		this.setPreferredSize(new Dimension(437,53));
+		this.setPreferredSize(new Dimension(443,53));
 		this.setVisible(true);
+		Border x = BorderFactory.createEtchedBorder();
+		this.setBorder(x);
+	
 	}
 
 	private void mouseEnter(){
@@ -75,6 +79,10 @@ public class ResultPanel extends Panel {
 	private void mouseLeave(){
 		this.setBackground(Color.white);
 	}
+	public void setResult(){
+	
+	}
+
 	
 
 }
