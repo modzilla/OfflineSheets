@@ -8,22 +8,26 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.Border;
+
+import xyz.offlinesheets.db.Datasheet;
 
 public class ResultPanel extends JPanel {
 
 	private static final long serialVersionUID = 185318332808351605L;
 	private String name, desc;
 	private ResultClickedEvent ch;
-	public ResultPanel(String partname, String description, ResultClickedEvent onclick){
+	//FIXME: #01: Add Constructor without args
+	
+	public ResultPanel(Datasheet part, ResultClickedEvent e){
 		super();
-		this.name = partname;
-		this.desc = description;
-		this.ch = onclick;
+		this.name = part.getName();
+		//TODO: #01: Implement Tag Concatting and Displaying
+		this.desc = part.getTags().get(0);
+		this.ch = e;
 		
 		this.setBackground(Color.WHITE);
 		this.addMouseListener(new MouseAdapter() {
@@ -79,8 +83,10 @@ public class ResultPanel extends JPanel {
 	private void mouseLeave(){
 		this.setBackground(Color.white);
 	}
-	public void setResult(){
-	
+	public void setResult(Datasheet d){
+		this.name = d.getName();
+		//TODO: #01: Implement Tag Concatting and Displaying
+		this.desc = d.getTags().get(0);
 	}
 
 	

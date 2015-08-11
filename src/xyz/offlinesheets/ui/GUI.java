@@ -1,17 +1,22 @@
 package xyz.offlinesheets.ui;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.Color;
+import javax.swing.border.EmptyBorder;
+
+import xyz.offlinesheets.db.Datasheet;
 
 public class GUI extends JFrame {
 
@@ -44,7 +49,7 @@ public class GUI extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("OfflineSheets");
-		setBounds(100, 100, 475, 85);
+		setBounds(100, 100, 475, 186);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -61,16 +66,24 @@ public class GUI extends JFrame {
 		
 		panel = new JPanel();
 		
-		ResultPanel resultPanel = new ResultPanel("LM741", "General Purpose OPAMP", (ResultClickedEvent) null);
-		resultPanel.setVisible(false);
-		ResultPanel resultPanel_1 = new ResultPanel((String) null, (String) null, (ResultClickedEvent) null);
-		resultPanel_1.setVisible(false);
-		ResultPanel resultPanel_2 = new ResultPanel((String) null, (String) null, (ResultClickedEvent) null);
-		resultPanel_2.setVisible(false);
-		ResultPanel resultPanel_3 = new ResultPanel((String) null, (String) null, (ResultClickedEvent) null);
-		resultPanel_3.setVisible(false);
-		ResultPanel resultPanel_4 = new ResultPanel((String) null, (String) null, (ResultClickedEvent) null);
-		resultPanel_4.setVisible(false);
+		List<String> templist = new ArrayList<>();
+		templist.add("OPV");
+		ResultPanel resultPanel = new ResultPanel(new Datasheet("LM741",templist,new File(""),""),new ResultClickedEvent() {			
+			@Override
+			public void clicked() {			
+				
+			}
+		});
+		resultPanel.setVisible(true);
+		//FIXME: #01: Enable Constructor without args / Uncomment
+//		ResultPanel resultPanel_1 = new ResultPanel((String) null, (String) null, (ResultClickedEvent) null);
+//		resultPanel_1.setVisible(false);
+//		ResultPanel resultPanel_2 = new ResultPanel((String) null, (String) null, (ResultClickedEvent) null);
+//		resultPanel_2.setVisible(false);
+//		ResultPanel resultPanel_3 = new ResultPanel((String) null, (String) null, (ResultClickedEvent) null);
+//		resultPanel_3.setVisible(false);
+//		ResultPanel resultPanel_4 = new ResultPanel((String) null, (String) null, (ResultClickedEvent) null);
+//		resultPanel_4.setVisible(false);
 
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -83,18 +96,20 @@ public class GUI extends JFrame {
 								.addComponent(resultPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(textField, GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE))
 							.addGap(10))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(resultPanel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(10, Short.MAX_VALUE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(resultPanel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(10, Short.MAX_VALUE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(resultPanel_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(10, Short.MAX_VALUE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(resultPanel_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(10, Short.MAX_VALUE))))
+						//FIXME: #02: Enable Constructor without args / Uncomment
+//						.addGroup(gl_contentPane.createSequentialGroup()
+//							.addComponent(resultPanel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+//							.addContainerGap(10, Short.MAX_VALUE))
+//						.addGroup(gl_contentPane.createSequentialGroup()
+//							.addComponent(resultPanel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+//							.addContainerGap(10, Short.MAX_VALUE))
+//						.addGroup(gl_contentPane.createSequentialGroup()
+//							.addComponent(resultPanel_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+//							.addContainerGap(10, Short.MAX_VALUE))
+//						.addGroup(gl_contentPane.createSequentialGroup()
+//							.addComponent(resultPanel_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+//							.addContainerGap(10, Short.MAX_VALUE)
+						))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -104,13 +119,14 @@ public class GUI extends JFrame {
 					.addGap(40)
 					.addComponent(resultPanel, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(resultPanel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(resultPanel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(resultPanel_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(resultPanel_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					//FIXME: #03: Enable Constructor without args / Uncomment
+//					.addComponent(resultPanel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+//					.addPreferredGap(ComponentPlacement.RELATED)
+//					.addComponent(resultPanel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+//					.addPreferredGap(ComponentPlacement.RELATED)
+//					.addComponent(resultPanel_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+//					.addPreferredGap(ComponentPlacement.RELATED)
+//					.addComponent(resultPanel_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(45, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
