@@ -1,5 +1,5 @@
 # Offline Sheets
 
 Using
-* CouchDB
-* lightcouch
+* CouchDB (Document Oriented Database)
+* lightcouch (CouchDB Java Implementation)
