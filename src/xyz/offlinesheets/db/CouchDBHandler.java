@@ -33,6 +33,15 @@ public class CouchDBHandler {
 		cdbc = null;
 	}
 	
+	/**
+	 * post Datasheet to database
+	 * @param ds
+	 * @return the id of the object in db
+	 */
+	public String post(Datasheet ds) {
+		return cdbc.post(ds).getId();
+	}
+	
 	public static void main(String[] args) {
 		CouchDBHandler cdbh = CouchDBHandler.getInstance();
 		List<String> tags = new LinkedList<>();
