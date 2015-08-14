@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
@@ -21,14 +22,18 @@ public class ResultPanel extends JPanel {
 	private String name, desc;
 	private ResultClickedEvent ch;
 	//FIXME: #01: Add Constructor without args
-	
+	public ResultPanel(){
+		init(true);
+	}
 	public ResultPanel(Datasheet part, ResultClickedEvent e){
 		super();
 		this.name = part.getName();
 		//TODO: #01: Implement Tag Concatting and Displaying
-		this.desc = part.getTags().get(0);
+		this.desc = concatTags(part.getTags());
 		this.ch = e;
-		
+		init(false);
+	}
+	public void init(boolean blank){
 		this.setBackground(Color.WHITE);
 		this.addMouseListener(new MouseAdapter() {
 			@Override
@@ -44,8 +49,13 @@ public class ResultPanel extends JPanel {
 				ch.clicked();
 			}
 		});
-		JLabel lblResultPart = new JLabel(name);		
-		JLabel lblResultDesc = new JLabel(desc);
+		JLabel lblResultPart = new JLabel("");		
+		JLabel lblResultDesc = new JLabel("");
+		if(!blank){
+		lblResultPart = new JLabel(name);		
+		lblResultDesc = new JLabel(desc);		
+		}
+
 		
 		GroupLayout gl_resultBox = new GroupLayout(this);
 		
@@ -71,10 +81,9 @@ public class ResultPanel extends JPanel {
 		lblResultDesc.setVisible(true);
 		this.setLayout(gl_resultBox);
 		this.setPreferredSize(new Dimension(443,53));
-		this.setVisible(true);
+		this.setVisible(!blank);
 		Border x = BorderFactory.createEtchedBorder();
 		this.setBorder(x);
-	
 	}
 
 	private void mouseEnter(){
@@ -87,6 +96,18 @@ public class ResultPanel extends JPanel {
 		this.name = d.getName();
 		//TODO: #01: Implement Tag Concatting and Displaying
 		this.desc = d.getTags().get(0);
+	}
+	public void setClickHandler(ResultClickedEvent e){
+		this.ch = e;
+	}
+	public String concatTags(List<String> tags){
+		String r = "";
+		for(String x : tags)
+			if(!tags.get(tags.size()-1).equalsIgnoreCase(x))
+				r += x + "; ";
+			else
+				r += x;		
+		return r;
 	}
 
 	
