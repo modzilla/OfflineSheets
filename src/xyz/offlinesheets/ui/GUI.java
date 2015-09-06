@@ -7,14 +7,10 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.GroupLayout.SequentialGroup;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -22,6 +18,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import xyz.offlinesheets.db.Datasheet;
+import xyz.offlinesheets.log.Log;
+import xyz.offlinesheets.log.LogLevel;
 
 public class GUI extends JFrame {
 
@@ -29,16 +27,15 @@ public class GUI extends JFrame {
 	private JTextField textField;
 	private int resultheight = 73, margin = 15, top = 85;
 	private int currResultsShown = 0;
-	private Logger log = Logger.getLogger("DEBUG");
 	// TODO: #01: Cleanup
 	ResultPanel dummy1 = new ResultPanel();
 	ResultPanel dummy2 = new ResultPanel();
 	ResultPanel dummy3 = new ResultPanel();
 	ResultPanel dummy4 = new ResultPanel();
 	GroupLayout gl_contentPane;
-	private List<JPanel> panes = new ArrayList<>();
+	private List<ResultPanel> panes = new ArrayList<>();
 	private JPanel panel;
-
+	private List<PDFrame> windows = new ArrayList<>();
 	/**
 	 * Launch the application.
 	 */
@@ -59,31 +56,11 @@ public class GUI extends JFrame {
 	 * Create the frame.
 	 */
 	public GUI() {
-		//FIXME: LOW: Implement "Actual Handler"
-		log.setLevel(Level.FINEST);
-		log.addHandler(new Handler() {
 
-			@Override
-			public void publish(LogRecord record) {
-				if(record.getLevel() != Level.SEVERE)
-					System.out.printf("[%s]>%s: %s\n" , record.getSourceMethodName(), record.getSourceClassName().replaceAll("class ", ""), record.getMessage());
-				else
-					System.err.printf("[%s]>%s: %s\n" , record.getSourceMethodName(), record.getSourceClassName().replaceAll("class ", ""), record.getMessage());
-			}
+		Log.init();
+		Log.setLevel(LogLevel.DEBUG);
 
-			@Override
-			public void flush() {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void close() throws SecurityException {
-				// TODO Auto-generated method stub
-
-			}
-		});
-		//TODO: #02: Cleanup
+		// TODO: #02: Cleanup
 		panes.add(dummy1);
 		panes.add(dummy2);
 		panes.add(dummy3);
@@ -169,11 +146,11 @@ public class GUI extends JFrame {
 		if ((arg0.isShiftDown() || arg0.isControlDown() || arg0.isAltDown() || arg0.isAltGraphDown())
 				&& ((((arg0.getKeyCode() ^ 17) == 0) || (arg0.getKeyCode() ^ 18) == 0)
 						|| (arg0.getKeyCode() ^ 16) == 0)) {
-			log.logp(Level.FINEST, this.getClass().toString(), "inputKeyEvent", "Modifier but no key -not querying");
+			Log.logp(Level.FINEST, this.getClass().toString(), "inputKeyEvent", "Modifier but no key -not querying");
 			return;
 		}
 
-		log.finest("[inputKeyEvent]: KeyPressEvent: (int)" + arg0.getKeyCode());
+		Log.finest("[inputKeyEvent]: KeyPressEvent: (int)" + arg0.getKeyCode());
 		// TODO: #00: QUERY FOR RESULTS
 
 		// FIXME: #-1: Temporary Results
@@ -186,15 +163,34 @@ public class GUI extends JFrame {
 		results.add(new Datasheet("OPA133", tags, new File(""), ""));
 		results.add(new Datasheet("REF01", tags, new File(""), ""));
 
+		// TODO: #00 SETUP MOUSEHANDLER
+
 		showResult(0, results.get(0));
 		showResult(1, results.get(1));
 		showResult(2, results.get(2));
 		showResult(3, results.get(3));
+		setupMouseHandlers();
 
 	}
 
+	private void setupMouseHandlers() {
+		for (ResultPanel x : panes) {
+			x.setClickHandler(new ResultClickedEvent() {
+				@Override
+				public void clicked() {
+					windows.add(new PDFrame(x.getDatasheet()));
+					openWindow();
+				}
+			});
+		}
+	}
+	public void openWindow(){
+		Thread r = new Thread(windows.get(windows.size()-1));
+		r.start();
+	}
+
 	public void showResult(int index, Datasheet result) {
-		log.finest("[showResult]: Showing result at " + index);
+		Log.finest("Showing result at " + index);
 		ResultPanel x = new ResultPanel(result, null);
 		gl_contentPane.replace(panes.get(index), x);
 		panes.set(index, x);
